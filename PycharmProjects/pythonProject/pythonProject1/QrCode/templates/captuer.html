@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقاط صورة</title>
+</head>
+<body>
+    <h1>التقاط صورة من الكاميرا</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">التقاط صورة</button>
+    </form>
+</body>
+</html>

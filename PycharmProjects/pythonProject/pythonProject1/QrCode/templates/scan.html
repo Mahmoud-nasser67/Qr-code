@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Capture QR Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #video {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+        }
+        #capture {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #photo {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+         .btn-custom {
+            background: #85852e; /* Custom background color */
+            border: none; /* Remove border */
+            color: white; /* Text color */
+            padding: 20px; /* Padding for the button effect */
+            border-radius: 40px; /* Rounded corners */
+            text-align: center; /* Center text */
+            display: inline-block; /* Make it behave like a button */
+            width: 70%; /* Full width */
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+    <div class="btn-custom">
+        <h1 class="m-0">{{ login_return }}</h1> <!-- m-0 removes the default margin -->
+    </div>
+</div>
+    <h2>Capture QR Code</h2>
+
+    <video id="video" autoplay playsinline></video>
+    <br>
+    <button id="capture">Take Photo</button>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+    <img id="photo" src="" alt="Captured Photo" style="display: none;"/>
+
+    <form id="imageForm" method="post" action="{% url 'scancode' %}" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" name="image_data" id="image_data" />
+    </form>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const photo = document.getElementById('photo');
+        const captureButton = document.getElementById('capture');
+
+        async function setupCamera() {
+            const constraints = {
+                video: { facingMode: "environment" }
+            };
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+                await video.play();
+
+                // Set canvas size to match video
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+            } catch (error) {
+                console.error("Error accessing the camera:", error);
+                alert("Error accessing the camera. Please make sure you've granted permission.");
+            }
+        }
+
+        setupCamera();
+
+        captureButton.addEventListener('click', () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            // Show the captured image
+            photo.src = imageData;
+            photo.style.display = 'block';
+
+            // Prepare to send image data to the server
+            document.getElementById('image_data').value = imageData;
+            document.getElementById('imageForm').submit();
+        });
+    </script>
+
+
+</body>
+</html>

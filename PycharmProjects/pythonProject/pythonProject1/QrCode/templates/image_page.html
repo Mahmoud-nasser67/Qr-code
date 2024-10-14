@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الصورة</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; /* محاذاة العناصر أفقياً في منتصف الصفحة */
+            align-items: center; /* محاذاة العناصر عمودياً في منتصف الصفحة */
+            height: 100vh; /* ارتفاع الصفحة الكامل */
+            background-color: #f8f9fa; /* لون الخلفية */
+            margin: 0; /* إزالة الهوامش */
+        }
+        .image-container {
+            border: 5px solid #007bff; /* لون الحدود */
+            border-radius: 15px; /* جعل الزوايا دائرية */
+            padding: 10px; /* إضافة مسافة بين الحدود والصورة */
+            background-color: #ffffff; /* لون خلفية الفريم */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* ظل خفيف للفريم */
+        }
+        img {
+            max-width: 100%; /* يجعل الصورة تتناسب مع عرض الحاوية */
+            height: auto; /* يحافظ على نسبة العرض إلى الارتفاع */
+            border-radius: 10px; /* جعل زوايا الصورة دائرية */
+        }
+    </style>
+</head>
+<body>
+  <br>
+  <br>
+  <br>
+  <div class="image-container">
+
+        <h1>الصورة الملتقطة</h1>
+        <h1>{{return_from}}</h1>
+        <img src="{{ image_path }}" alt="صورة QR Code">
+
+  </div>
+  <br>
+  <div>
+
+            <a href="/scancode" class="btn btn-primary" >
+                <button class="btn btn-primary"> فحص الكود </button>
+            </a>
+
+  </div>
+
+  <br>
+  <br>
+</body>
+</html>
